@@ -1,0 +1,12 @@
+FROM python:3.11-slim
+
+# pytest is baked in at build time; the container runs with networking disabled.
+RUN pip install --no-cache-dir pytest==8.3.3 \
+    && useradd -m -u 1000 sandboxuser
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /workspace
+RUN chown sandboxuser:sandboxuser /workspace
+USER sandboxuser
